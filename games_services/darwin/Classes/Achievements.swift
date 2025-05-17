@@ -39,29 +39,15 @@ class Achievements: BaseGamesServices {
             result[description] = achievements.first(where: { $0.identifier == description.identifier })
           }
           
-          let incompleteAchievementImageData = GKAchievementDescription.incompleteAchievementImage()
-          #if os(macOS)
-          let incompleteAchievementImage = incompleteAchievementImageData.tiffRepresentation?.base64EncodedString()
-          #else
-          let incompleteAchievementImage = incompleteAchievementImageData.pngData()?.base64EncodedString()
-          #endif
           var items = [AchievementItemData]()
           for (description, achievement) in achievementsMap {
-            #if os(macOS)
-            let uiimage = try? await description.loadImage()
-            let imageData = uiimage?.tiffRepresentation
-            #else
-            let uiimage = try? await description.loadImage()
-            let imageData = uiimage?.pngData()
-            #endif
-            let image = imageData?.base64EncodedString()
             let isCompleted = achievement?.isCompleted ?? false
             let achievementDescription = isCompleted ? description.achievedDescription : description.unachievedDescription
             items.append(AchievementItemData(id: description.identifier,
                                              name: description.title,
                                              description: achievementDescription,
-                                             lockedImage: incompleteAchievementImage,
-                                             unlockedImage: image,
+                                             lockedImage: nil,
+                                             unlockedImage: nil,
                                              completedSteps: Int(achievement?.percentComplete ?? 0),
                                              unlocked: isCompleted))
           }
@@ -94,4 +80,3 @@ class Achievements: BaseGamesServices {
     }
   }
 }
-

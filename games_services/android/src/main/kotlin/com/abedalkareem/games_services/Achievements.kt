@@ -2,7 +2,6 @@ package com.abedalkareem.games_services
 
 import android.app.Activity
 import com.abedalkareem.games_services.models.AchievementItemData
-import com.abedalkareem.games_services.util.AppImageLoader
 import com.abedalkareem.games_services.util.PluginError
 import com.abedalkareem.games_services.util.errorCode
 import com.abedalkareem.games_services.util.errorMessage
@@ -19,7 +18,6 @@ import kotlinx.coroutines.launch
 
 class Achievements(private var activityPluginBinding: ActivityPluginBinding) {
 
-  private val imageLoader = AppImageLoader()
   private val achievementClient: AchievementsClient
     get() {
       return PlayGames.getAchievementsClient(activityPluginBinding.activity)
@@ -87,10 +85,8 @@ class Achievements(private var activityPluginBinding: ActivityPluginBinding) {
         CoroutineScope(Dispatchers.Main + handler).launch {
           val achievements = mutableListOf<AchievementItemData>()
           for (item in data) {
-            val lockedImage =
-              item.revealedImageUri?.let { imageLoader.loadImageFromUri(activity, it) }
-            val unlockedImage =
-              item.unlockedImageUri?.let { imageLoader.loadImageFromUri(activity, it) }
+            val lockedImage = null
+            val unlockedImage = null
             achievements.add(
               AchievementItemData(
                 item.achievementId,
