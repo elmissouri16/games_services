@@ -103,9 +103,10 @@ class MethodChannelGamesServices extends GamesServicesPlatform {
   }
 
   @override
-  Future<String?> loadAchievements({bool forceRefresh = false}) async {
-    return await _methodChannel
-        .invokeMethod("loadAchievements", {"forceRefresh": forceRefresh});
+  Future<String?> loadAchievements(
+      {bool forceRefresh = false, bool loadImages = false}) async {
+    return await _methodChannel.invokeMethod("loadAchievements",
+        {"forceRefresh": forceRefresh, "loadImages": loadImages});
   }
 
   @override
